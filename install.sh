@@ -107,6 +107,8 @@ fi
 
 mkdir -p "$BASE_DIR/core"
 mkdir -p "$BASE_DIR/logs"
+touch "$BASE_DIR/logs/nginxbandits.log"
+ln -sfn "$BASE_DIR/logs/nginxbandits.log" "$BASE_DIR/logs/janabitech.log"
 mkdir -p "$BASE_DIR/core/keys"
 
 if [ -f "$BASE_DIR/core/nginxbandits.conf" ]; then
@@ -131,7 +133,7 @@ fi
 
 if [ ! -f "$BASE_DIR/core/server_geo.env" ]; then
     cat > "$BASE_DIR/core/server_geo.env" <<GEO
-SERVER_COUNTRY="Kenya"
+SERVER_COUNTRY=""
 SERVER_CITY=""
 SERVER_ISP=""
 GEO
@@ -187,21 +189,6 @@ for PHASE in "${PHASES[@]}"; do
     fi
 
 done
-
-echo
-echo -e "${CYAN}[*] Creating application compatibility links...${NC}"
-
-if command -v btop >/dev/null 2>&1; then
-    ln -sfn "$(command -v btop)" "$BASE_DIR/bin/btop"
-fi
-
-if command -v speedtest >/dev/null 2>&1; then
-    ln -sfn "$(command -v speedtest)" "$BASE_DIR/bin/speedtest"
-fi
-
-if command -v speedtest-cli >/dev/null 2>&1; then
-    ln -sfn "$(command -v speedtest-cli)" "$BASE_DIR/bin/speedtest"
-fi
 
 echo
 echo -e "${CYAN}[*] Performing final installation checks...${NC}"

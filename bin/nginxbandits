@@ -1,0 +1,243 @@
+#!/bin/bash
+
+BASE_DIR="/opt/nginxbandits"
+CONFIG="${BASE_DIR}/core/nginxbandits.conf"
+
+if [ -f "$CONFIG" ]; then
+    source "$CONFIG"
+fi
+
+source "${BASE_DIR}/lib/system.sh" 2>/dev/null
+source "${BASE_DIR}/lib/db.sh" 2>/dev/null
+source "${BASE_DIR}/lib/users.sh" 2>/dev/null
+source "${BASE_DIR}/lib/services.sh" 2>/dev/null
+
+COMMAND="$1"
+SUBCOMMAND="$2"
+TARGET="$3"
+ARG4="$4"
+ARG5="$5"
+ARG6="$6"
+ARG7="$7"
+
+show_help() {
+    echo
+    echo "======================================================"
+    echo "              NGINXBANDITS CLI"
+    echo "======================================================"
+    echo
+    echo "Usage: nginxbandits <resource> <action> [args]"
+    echo
+    echo "USER"
+    echo "  user add <user> <pass> <days> <max_logins> <bw_limit>"
+    echo "  user trial <user> <pass> <hours> <max_logins> <bw_limit>"
+    echo "  user renew <user> <days>"
+    echo "  user del <user>"
+    echo
+    echo "SERVICE"
+    echo "  service restart <name>"
+    echo "  service status <name>"
+    echo "  service stop <name>"
+    echo
+    echo "CONFIG"
+    echo "  config host <domain>"
+    echo "  config ns <domain>"
+    echo
+    echo "CERTIFICATE"
+    echo "  cert renew [domain]"
+    echo "  cert status"
+    echo
+    echo "DNSTT"
+    echo "  dnstt renew"
+    echo
+    echo "SYSTEM"
+    echo "  sys online"
+    echo "  sys autoreboot <hours>"
+    echo "  sys banner"
+    echo "  sys backup"
+    echo "  sys restore <file>"
+    echo "  sys update"
+    echo "  sys uninstall"
+    echo "  sys fail2ban"
+    echo "  sys version"
+    echo
+}
+
+case "$COMMAND" in
+
+    user)
+
+        case "$SUBCOMMAND" in
+
+            add)
+                create_vpn_user \
+                    "$TARGET" \
+                    "$ARG4" \
+                    "$ARG5" \
+                    "$ARG6" \
+                    "$ARG7"
+                ;;
+
+            trial)
+                create_trial_user \
+                    "$TARGET" \
+                    "$ARG4" \
+                    "$ARG5" \
+                    "$ARG6" \
+                    "$ARG7"
+                ;;
+
+            renew)
+                renew_user \
+                    "$TARGET" \
+                    "$ARG4"
+                ;;
+
+            del)
+                delete_vpn_user \
+                    "$TARGET"
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    service)
+
+        case "$SUBCOMMAND" in
+
+            restart)
+                restart_service "$TARGET"
+                ;;
+
+            status)
+                get_service_status "$TARGET"
+                ;;
+
+            stop)
+                stop_service "$TARGET"
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    config)
+
+        case "$SUBCOMMAND" in
+
+            host)
+                change_host_domain "$TARGET"
+                ;;
+
+            ns)
+                change_ns_domain "$TARGET"
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    cert)
+
+        case "$SUBCOMMAND" in
+
+            renew)
+                renew_ssl_cert "$TARGET"
+                ;;
+
+            status)
+
+                if [ -d "/root/.acme.sh" ] && \
+                   [ -x "/root/.acme.sh/acme.sh" ]; then
+                    /root/.acme.sh/acme.sh --list
+                else
+                    echo "ACME client is not installed."
+                fi
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    dnstt)
+
+        case "$SUBCOMMAND" in
+
+            renew)
+                generate_dnstt_key
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    sys)
+
+        case "$SUBCOMMAND" in
+
+            online)
+
+                ONLINE_FILE="${BASE_DIR}/core/online_users.txt"
+
+                if [ -f "$ONLINE_FILE" ]; then
+                    cat "$ONLINE_FILE"
+                else
+                    echo "Monitor is starting up..."
+                fi
+                ;;
+
+            autoreboot)
+                set_auto_reboot "$TARGET"
+                ;;
+
+            banner)
+                change_banner
+                ;;
+
+            backup)
+                create_backup
+                ;;
+
+            restore)
+                restore_backup "$TARGET"
+                ;;
+
+            update)
+                update_script
+                ;;
+
+            uninstall)
+                uninstall_script
+                ;;
+
+            fail2ban)
+                install_fail2ban
+                ;;
+
+            version)
+                echo "NginxBandits Server Management System"
+                echo "Version: 1.0"
+                ;;
+
+            *)
+                show_help
+                ;;
+        esac
+        ;;
+
+    *)
+        show_help
+        ;;
+
+esac

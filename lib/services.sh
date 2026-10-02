@@ -6,10 +6,10 @@ CONFIG="/opt/nginxbandits/core/nginxbandits.conf"
 source "/opt/nginxbandits/lib/system.sh" 2>/dev/null
 
 MANAGED_SERVICES=(
-    "janabitech-ws"
-    "janabitech-dnstt"
-    "janabitech-monitor"
-    "janabitech-udp-custom"
+    "nginxbandits-ws"
+    "nginxbandits-dnstt"
+    "nginxbandits-monitor"
+    "nginxbandits-udp-custom"
     "stunnel4"
     "dropbear"
     "danted"

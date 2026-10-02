@@ -99,7 +99,7 @@ fi
 
 echo "[*] Creating UDP Custom service..."
 
-cat > /etc/systemd/system/janabitech-udp-custom.service <<SERVICE
+cat > /etc/systemd/system/nginxbandits-udp-custom.service <<SERVICE
 [Unit]
 Description=NginxBandits UDP Custom
 After=network.target
@@ -118,7 +118,7 @@ WantedBy=multi-user.target
 SERVICE
 
 systemctl daemon-reload
-systemctl enable janabitech-udp-custom >/dev/null 2>&1 || true
+systemctl enable nginxbandits-udp-custom >/dev/null 2>&1 || true
 
 # ------------------------------------------------------
 # DNSTT / SLOWDNS
@@ -196,7 +196,7 @@ fi
 
 echo "[*] Creating DNSTT service..."
 
-cat > /etc/systemd/system/janabitech-dnstt.service <<SERVICE
+cat > /etc/systemd/system/nginxbandits-dnstt.service <<SERVICE
 [Unit]
 Description=NginxBandits DNSTT Server
 After=network.target
@@ -215,7 +215,7 @@ WantedBy=multi-user.target
 SERVICE
 
 systemctl daemon-reload
-systemctl enable janabitech-dnstt >/dev/null 2>&1 || true
+systemctl enable nginxbandits-dnstt >/dev/null 2>&1 || true
 
 # ------------------------------------------------------
 # FIREWALL
@@ -243,14 +243,14 @@ netfilter-persistent save >/dev/null 2>&1 || true
 echo "[*] Starting UDP Custom..."
 
 if [ -x "$UDP_BIN" ]; then
-    systemctl restart janabitech-udp-custom >/dev/null 2>&1 || true
+    systemctl restart nginxbandits-udp-custom >/dev/null 2>&1 || true
 fi
 
 echo "[*] Starting DNSTT..."
 
 if [ -x "$DNSTT_BIN" ] && \
    [ -s "${BASE_DIR}/core/keys/dnstt.key" ]; then
-    systemctl restart janabitech-dnstt >/dev/null 2>&1 || true
+    systemctl restart nginxbandits-dnstt >/dev/null 2>&1 || true
 fi
 
 echo

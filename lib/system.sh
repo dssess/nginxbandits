@@ -97,10 +97,10 @@ change_ns_domain() {
 
     NS_DOMAIN="$new_domain"
 
-    if systemctl cat janabitech-dnstt >/dev/null 2>&1; then
-        systemctl restart janabitech-dnstt >/dev/null 2>&1 || true
-    elif systemctl cat nginxbandits-dnstt >/dev/null 2>&1; then
+    if systemctl cat nginxbandits-dnstt >/dev/null 2>&1; then
         systemctl restart nginxbandits-dnstt >/dev/null 2>&1 || true
+    elif systemctl cat janabitech-dnstt >/dev/null 2>&1; then
+        systemctl restart janabitech-dnstt >/dev/null 2>&1 || true
     fi
 
     log_event "INFO" "Nameserver domain changed to $new_domain."
@@ -176,10 +176,10 @@ generate_dnstt_key() {
     chmod 600 "$private_key"
     chmod 644 "$public_key"
 
-    if systemctl cat janabitech-dnstt >/dev/null 2>&1; then
-        systemctl restart janabitech-dnstt >/dev/null 2>&1 || true
-    elif systemctl cat nginxbandits-dnstt >/dev/null 2>&1; then
+    if systemctl cat nginxbandits-dnstt >/dev/null 2>&1; then
         systemctl restart nginxbandits-dnstt >/dev/null 2>&1 || true
+    elif systemctl cat janabitech-dnstt >/dev/null 2>&1; then
+        systemctl restart janabitech-dnstt >/dev/null 2>&1 || true
     fi
 
     log_event "INFO" "DNSTT keys regenerated."

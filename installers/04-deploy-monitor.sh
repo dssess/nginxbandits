@@ -120,7 +120,7 @@ fi
 
 echo "[*] Creating monitoring service..."
 
-cat > /etc/systemd/system/janabitech-monitor.service <<SERVICE
+cat > /etc/systemd/system/nginxbandits-monitor.service <<SERVICE
 [Unit]
 Description=NginxBandits Account and Connection Monitor
 After=network.target sqlite.target dropbear.service
@@ -158,26 +158,26 @@ systemctl daemon-reload
 
 echo "[*] Enabling monitor..."
 
-systemctl enable janabitech-monitor >/dev/null 2>&1
+systemctl enable nginxbandits-monitor >/dev/null 2>&1
 
 echo "[*] Starting monitor..."
 
-systemctl restart janabitech-monitor
+systemctl restart nginxbandits-monitor
 
 sleep 2
 
-if systemctl is-active --quiet janabitech-monitor; then
+if systemctl is-active --quiet nginxbandits-monitor; then
     echo "[+] Monitor service is ACTIVE."
 else
     echo "[FATAL] Monitor service failed to start."
-    systemctl --no-pager --full status janabitech-monitor || true
+    systemctl --no-pager --full status nginxbandits-monitor || true
     exit 1
 fi
 
 echo
 echo "[+] Monitoring deployment complete."
 echo
-echo "Service   : janabitech-monitor"
+echo "Service   : nginxbandits-monitor"
 
 if [ -x "${BASE_DIR}/bin/speedtest" ]; then
     echo "Speedtest : INSTALLED"

@@ -678,9 +678,9 @@ menu_services() {
         case $opt in
             1) /opt/janabitech/bin/janabitech service restart all; pause ;;
             2) /opt/janabitech/bin/janabitech service restart dropbear; pause ;;
-            3) /opt/janabitech/bin/janabitech service restart janabitech-ws; pause ;;
+            3) /opt/janabitech/bin/janabitech service restart nginxbandits-ws; pause ;;
             4) /opt/janabitech/bin/janabitech service restart stunnel4; pause ;;
-            5) /opt/janabitech/bin/janabitech service restart janabitech-dnstt; pause ;;
+            5) /opt/janabitech/bin/janabitech service restart nginxbandits-dnstt; pause ;;
             0) return ;;
             *) echo -e "${RED}Invalid option${NC}"; sleep 1 ;;
         esac
@@ -983,9 +983,9 @@ show_dashboard() {
         echo -e "  ${ORANGE}✦ Primary Domain${NC}  : ${GREEN}${PRIMARY_DOMAIN}${NC}"
         draw_mid
         
-        printf "  ${CYAN}WS-Proxy: %b   Stunnel : %b   Dropbear: %b${NC}\n" "$(check_service janabitech-ws)" "$(check_service stunnel4)" "$(check_service dropbear)"
-        printf "  ${CYAN}Dante   : %b   UDP Cust: %b   DNSTT   : %b${NC}\n" "$(check_service danted)" "$(check_service janabitech-udp-custom)" "$(check_service janabitech-dnstt)"
-        printf "  ${CYAN}Monitor : %b${NC}\n" "$(check_service janabitech-monitor)"
+        printf "  ${CYAN}WS-Proxy: %b   Stunnel : %b   Dropbear: %b${NC}\n" "$(check_service nginxbandits-ws)" "$(check_service stunnel4)" "$(check_service dropbear)"
+        printf "  ${CYAN}Dante   : %b   UDP Cust: %b   DNSTT   : %b${NC}\n" "$(check_service danted)" "$(check_service nginxbandits-udp-custom)" "$(check_service nginxbandits-dnstt)"
+        printf "  ${CYAN}Monitor : %b${NC}\n" "$(check_service nginxbandits-monitor)"
         echo -e ""
         echo -e "  ${ORANGE}Data Used Today${NC}   : ${GREEN}${BW_TODAY}${NC}"
         echo -e "  ${ORANGE}Data Used Month${NC}   : ${CYAN}${BW_MONTH}${NC}"

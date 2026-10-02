@@ -83,7 +83,7 @@ fi
 
 chmod +x "$WS_PROXY"
 
-cat > /etc/systemd/system/janabitech-ws.service <<SERVICE
+cat > /etc/systemd/system/nginxbandits-ws.service <<SERVICE
 [Unit]
 Description=NginxBandits Async WebSocket SSH Proxy
 After=network.target ssh.service dropbear.service
@@ -151,7 +151,7 @@ systemctl daemon-reload
 systemctl enable ssh >/dev/null 2>&1 || true
 systemctl enable ssh.socket >/dev/null 2>&1 || true
 systemctl enable dropbear >/dev/null 2>&1 || true
-systemctl enable janabitech-ws >/dev/null 2>&1
+systemctl enable nginxbandits-ws >/dev/null 2>&1
 systemctl enable stunnel4 >/dev/null 2>&1 || true
 
 echo "[*] Restarting OpenSSH..."
@@ -167,7 +167,7 @@ systemctl restart dropbear >/dev/null 2>&1 || true
 
 echo "[*] Starting WebSocket proxy..."
 
-systemctl restart janabitech-ws >/dev/null 2>&1 || true
+systemctl restart nginxbandits-ws >/dev/null 2>&1 || true
 
 echo "[*] Starting Stunnel..."
 

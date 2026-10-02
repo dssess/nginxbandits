@@ -79,7 +79,7 @@ fi
 echo
 echo "[*] Preparing NginxBandits configuration..."
 
-if [ ! -f "$CONFIG_FILE" ]; then
+if true; then
     read -r -p "Primary VPN Domain: " DOMAIN
     read -r -p "Nameserver Domain: " NS_DOMAIN
 

@@ -31,7 +31,7 @@ create_vpn_user() {
     local username="$1"
     local password="$2"
     local days="$3"
-    local max_logins="${4:-$MAX_LOGINS_DEFAULT}"
+    local max_logins="${4-$MAX_LOGINS_DEFAULT}"
     local bw_limit_gb="${5:-0}"
 
     validate_username "$username" || return 3
@@ -99,7 +99,7 @@ create_trial_user() {
     local username="$1"
     local password="$2"
     local hours="$3"
-    local max_logins="${4:-$MAX_LOGINS_DEFAULT}"
+    local max_logins="${4-$MAX_LOGINS_DEFAULT}"
     local bw_limit_gb="${5:-0}"
 
     validate_username "$username" || return 3

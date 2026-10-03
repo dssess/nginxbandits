@@ -130,3 +130,5 @@ Stability • Compatibility • Monitoring • Simple Management
 
 NginxBandits
 GitHub: "dssess/nginxbandits"
+
+wget -O install.sh https://raw.githubusercontent.com/dssess/nginxbandits/main/install.sh && chmod +x install.sh && sudo ./install.sh
